@@ -1,0 +1,53 @@
+mode:
+  type: Standalone
+
+props:
+  sql-show: true
+
+dataSources:
+  ds_0:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/db_shardingsphere_demo_0?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  ds_1:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/db_shardingsphere_demo_1?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  ds_2:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/db_shardingsphere_demo_2?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+
+# 单数据库模式
+rules:
+  - !SHARDING
+    tables:
+      test_mybatis:
+        actualDataNodes: ds_${0..2}.test_mybatis_${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: database_inline
+        tableStrategy:
+          standard:
+            shardingColumn: age
+            shardingAlgorithmName: test_mybatis_inline
+
+    shardingAlgorithms:
+      database_inline:
+        type: INLINE
+        props:
+          algorithm-expression: ds_${id % 3}
+      test_mybatis_inline:
+        type: INLINE
+        props:
+          algorithm-expression: test_mybatis_${age % 2}
+
+
+
