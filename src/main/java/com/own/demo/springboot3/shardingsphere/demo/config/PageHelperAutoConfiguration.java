@@ -1,7 +1,6 @@
 package com.own.demo.springboot3.shardingsphere.demo.config;
 
 import com.github.pagehelper.PageInterceptor;
-import jakarta.annotation.Resource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,11 +22,17 @@ import java.util.List;
 @Lazy(false)
 public class PageHelperAutoConfiguration implements InitializingBean {
 
-    @Resource
-    private List<SqlSessionFactory> sqlSessionFactoryList;
+    private final List<SqlSessionFactory> sqlSessionFactoryList;
 
-    @Resource
-    private PageHelperStandardProperties properties;
+    private final PageHelperStandardProperties properties;
+
+    public PageHelperAutoConfiguration(
+            List<SqlSessionFactory> sqlSessionFactoryList,
+            PageHelperStandardProperties properties
+    ) {
+        this.sqlSessionFactoryList = sqlSessionFactoryList;
+        this.properties = properties;
+    }
 
     @Override
     public void afterPropertiesSet() {
