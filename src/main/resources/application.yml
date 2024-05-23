@@ -12,3 +12,8 @@ spring:
 #    url: jdbc:mysql://127.0.0.1:3306/db_shardingsphere_demo_01?characterEncoding=utf8&serverTimezone=Asia/Shanghai
 #    username: root
 #    password: 1234
+
+pagehelper:
+  reasonable: true
+  params: count=countSql
+  helper-dialect: mysql
