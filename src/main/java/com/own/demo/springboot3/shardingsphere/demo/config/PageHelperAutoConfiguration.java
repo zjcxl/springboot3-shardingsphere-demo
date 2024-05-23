@@ -6,6 +6,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Lazy;
 
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @SpringBootConfiguration
 @EnableConfigurationProperties({PageHelperStandardProperties.class})
+@AutoConfigureAfter(SqlSessionFactory.class)
 @Lazy(false)
 public class PageHelperAutoConfiguration implements InitializingBean {
 
